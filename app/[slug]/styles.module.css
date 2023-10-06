@@ -1,0 +1,137 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.red {
+  background-color: #FFC1C1;
+}
+
+.blue {
+  background-color: #A2CFFE;
+}
+
+.green {
+  background-color: #B0E57C;
+}
+
+.yellow {
+  background-color: #FFEE93;
+}
+
+.purple {
+  background-color: #D9A2FF;
+}
+
+.scrollspy {
+  position: fixed;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 99;
+}
+
+.dot {
+  position: relative;
+  width: 30px; 
+  height: 30px; 
+  border-radius: 50%; 
+  background: gray;
+  transition: background 0.3s;
+}
+
+.dot.active {
+  background: blue;
+}
+
+.invisible {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+@keyframes lineGrowth {
+  0% {
+    height: 0;
+  }
+  15% {
+    height: 20%;
+  }
+  25% {
+    height: 20%;
+  }
+  40% {
+    height: 40%;
+  }
+  50% {
+    height: 40%;
+  }
+  65% {
+    height: 60%;
+  }
+  75% {
+    height: 60%;
+  }
+  90% {
+    height: 80%;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+
+.keyline {
+  position: absolute; /* or relative, based on your setup */
+  top: 0;
+  left:100px;
+  width: 2px;
+  background-color: #000;
+  height: 0;
+  animation: lineGrowth 15s forwards;
+}
+
+
+.keydot {
+  position: fixed; /* Fixed positioning so dots don't move */
+  left: 100px; /* adjust based on where you want the dots relative to viewport */
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: #000;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.keytext {
+  position: fixed; /* Fixed positioning so dots don't move */
+  left: 150px; /* adjust based on where you want the dots relative to viewport */
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
