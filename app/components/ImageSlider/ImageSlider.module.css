@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    height: 100vh;
+}
+
+.image {
+    width: 50%;
+    position: absolute;
+    border-radius: 12px;
+}
+
+

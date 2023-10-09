@@ -21,3 +21,11 @@ export type PRODUCT_TYPE = {
     image1: string;
   };
 };
+
+
+export interface Product {
+  id: string;
+  cover_title: string;
+  cover_image: string;
+  cover_description: string;
+}

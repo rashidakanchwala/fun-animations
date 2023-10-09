@@ -3,14 +3,29 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.css';
 import Scrollspy from 'react-scrollspy';
-import {handleKeylineAnimation} from '../animations/animation_handler';
-import { PRODUCT_TYPE } from './productType'
+import { PRODUCT_TYPE, Product } from './productType'
+import  ImageSlider  from '../components/ImageSlider';
+
+
 
 export default function Home({ params }: { params: { slug: string } }) {
   const [data, setData] = useState<PRODUCT_TYPE | null>(null);
   const [activeSection, setActiveSection] = useState<string>('');
+  const [clickedImage, setClickedImage] = useState<string | null>(null);
+  const [animatedSection, setAnimatedSection] = useState<string | null>(null);
+
+  console.log(clickedImage)
+
 
   const { slug } = params;
+
+  const imagePaths = [
+    '/images/city1.png',
+    '/images/city2.png',
+    '/images/city3.png',
+    '/images/planet2.png',
+    '/images/planet1.png',
+  ];
 
 
   useEffect(() => {
@@ -30,15 +45,16 @@ export default function Home({ params }: { params: { slug: string } }) {
 
   const sectionsRefs = [section1Ref, section2Ref, section3Ref, section4Ref, section5Ref, section6Ref];
 
+
   useEffect(() => {
     if (!data) return;
   
     const callback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            handleKeylineAnimation(entry);
+        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            setAnimatedSection(entry.target.id);
         }
-      });
+    });
     };
   
     const observerOptions = {
@@ -54,6 +70,16 @@ export default function Home({ params }: { params: { slug: string } }) {
       sectionsRefs.forEach(ref => ref.current && observer.unobserve(ref.current));
     };
   }, [data, sectionsRefs]);
+
+  const handleImageClick = (imagePath: string) => {
+    setClickedImage(imagePath);
+  };
+
+  useEffect(() => {
+    if (clickedImage) {
+        section2Ref.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [clickedImage]);
   
 
 
@@ -68,8 +94,29 @@ export default function Home({ params }: { params: { slug: string } }) {
       </div>
       {data && (
         <>
+          {/* Products Section */}
+            <div ref={section1Ref} id="section1" 
+            className={`${styles.section} ${styles.blue} ${animatedSection === 'section1' ? styles.animate : ''}`}>
+              <div className={styles.imageCarousel}>
+                <ImageSlider imagePaths={imagePaths} onImageClick={handleImageClick}/>
+              </div>
+            </div>
+
+          {/* Selected Product Intro */}
+             <div 
+             ref={section2Ref} 
+             id="section2" 
+             className={`${styles.section} ${styles.green} ${animatedSection === 'section2' ? styles.animate : ''}`}
+             style={{ backgroundImage: `url(${clickedImage})` }}
+             >
+               <div className={styles.animatedBox}>
+                <h1 className={styles.boxTitle}>Your Title</h1>
+                <p className={styles.boxDescription}>Your description here.</p>
+              </div>
+            </div>
+
           {/* Cover Section */}
-          <div 
+          {/* <div 
           ref={section1Ref} 
           id="section1" 
           className={`${styles.section}`}
@@ -83,7 +130,6 @@ export default function Home({ params }: { params: { slug: string } }) {
             <p className={`${styles.title}`}>{data.cover.cover_title}</p>
             <p className={`${styles.text} ${styles.invisible}`}>{data.cover.cover_description}</p>
             <div className={styles.keyline}>
-              { /* Dots placed in keyline at desired positions */ }
               {[20, 40, 60, 80].map(percentage => (
                   <div 
                       key={`dot-${percentage}`} 
@@ -99,19 +145,8 @@ export default function Home({ params }: { params: { slug: string } }) {
                   > Taha</div>
               ))}
             </div>
-          </div>
-  
-          {/* Blurb Section */}
-          <div ref={section2Ref} id="section2" className={`${styles.section} ${styles.blue}`}>
-            <h2 className={`${styles.text} ${styles.invisible}`}>Blurb</h2>
-            <p className={`${styles.text} ${styles.invisible}`}>{data.blurb.description}</p>
-          </div>
-  
-          {/* Impact Section */}
-          <div ref={section3Ref} id="section3" className={`${styles.section} ${styles.green}`}>
-            <h2 className={`${styles.text} ${styles.invisible}`}>Impact</h2>
-            <p className={`${styles.text} ${styles.invisible}`}>{data.impact.delivery}</p>
-          </div>
+          </div>   */}
+       
   
           {/* Demo Section */}
           <div ref={section4Ref} id="section4" className={`${styles.section} ${styles.yellow}`}>
